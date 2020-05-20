@@ -1,0 +1,15 @@
+resources:
+- pvc.yaml
+- deployment.yaml
+- service.yaml
+
+configMapGenerator:
+- name: node-solid-server-env
+  env: node-solid-server.env
+# We need to provide a custom config.json because the default one sets values
+# that are different than the usual solid cli defaults, e.g. it sets multiuser=true instead of false.
+# And (I think) the config file takes precedence over environment variables, or at least it's not possible to set multiuser=false via env variable after that.
+# So here we'll set an empty config.json, then use only environment variables to configure things.
+- name: node-solid-server-files
+  files:
+  - config.json

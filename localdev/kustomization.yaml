@@ -1,0 +1,33 @@
+bases:
+- ../base
+
+resources:
+- ingress.yaml
+
+configMapGenerator:
+- name: parameters
+  literals:
+  - PUBLIC_HOST=node-solid-server.local
+  - PUBLIC_URL=http://node-solid-server.local
+- name: node-solid-server-env
+  env: node-solid-server.env
+  behavior: merge
+
+vars:
+- name: PUBLIC_HOST
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: parameters
+  fieldref:
+    fieldpath: data.PUBLIC_HOST
+- name: PUBLIC_URL
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: parameters
+  fieldref:
+    fieldpath: data.PUBLIC_URL
+
+patchesStrategicMerge:
+- patch-solid-server-uri.yaml

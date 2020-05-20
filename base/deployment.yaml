@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-solid-server
+spec:
+  selector:
+    matchLabels:
+      app: node-solid-server
+  template:
+    metadata:
+      labels:
+        app: node-solid-server
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: node-solid-server
+        image: index.docker.io/gobengo/node-solid-server:5.2.2
+        ports:
+        - containerPort: 8080
+          name: http
+        envFrom:
+        - configMapRef:
+            name: node-solid-server-env
+        volumeMounts:
+        - name: files
+          mountPath: /usr/src/app/config.json
+          subPath: config.json
+        - name: solid-data
+          mountPath: /usr/src/app/data
+      volumes:
+      - name: files
+        configMap:
+          name: node-solid-server-files
+      - name: solid-data
+        persistentVolumeClaim:
+          claimName: solid-data

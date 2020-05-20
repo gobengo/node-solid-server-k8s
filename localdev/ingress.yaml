@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: node-solid-server-local
+spec:
+  rules:
+    - host: $(PUBLIC_HOST)
+      http:
+        paths:
+        - backend:
+            serviceName: node-solid-server
+            servicePort: http

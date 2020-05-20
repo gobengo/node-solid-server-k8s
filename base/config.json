@@ -1,0 +1,10 @@
+
+{
+  "root": "./data/root",
+  "webid": true,
+  "mount": "/",
+  "configPath": "./config",
+  "dbPath": "./data/db",
+  "corsProxy": "/proxy",
+  "disablePasswordChecks": false
+}
